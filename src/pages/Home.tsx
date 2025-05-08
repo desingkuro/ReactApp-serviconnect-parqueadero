@@ -1,0 +1,58 @@
+import Header from "../shared/components/Header";
+import Footer from "../shared/components/Footer";
+
+interface WindowWithRNWebView extends Window {
+  ReactNativeWebView?: {
+    postMessage: (message: string) => void;
+  };
+}
+declare global {
+  interface window extends WindowWithRNWebView {}
+}
+
+function Home() {
+  const sendMessage = () => {
+    
+    const message = {
+      type: "REACT_WEBVIEW_MESSAGE",
+      content: "BIENVENIDO",
+    };
+
+    // Verificar si estamos en un WebView de React Native
+    const win = window as WindowWithRNWebView;
+    if (win.ReactNativeWebView) {
+      win.ReactNativeWebView.postMessage(JSON.stringify(message));
+    } else {
+      alert('No se encontró ReactNativeWebView');
+    }
+  };
+
+  const logout = () => {
+    const message = {
+      type: "LOGOUT",
+      content: "Logout",
+    };
+
+    // Verificar si estamos en un WebView de React Native
+    const win = window as WindowWithRNWebView;
+    if (win.ReactNativeWebView) {
+      win.ReactNativeWebView.postMessage(JSON.stringify(message));
+    } else {
+      alert('No se encontró ReactNativeWebView');
+    }
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <div className="flex-1 text-center gap-1.5 justify-center items-center p-4">
+        <h1>Home</h1>
+        <button className="bg-blue-500 text-white p-2 rounded cursor-pointer hover:bg-blue-600" onClick={sendMessage}>Send Message</button>
+        <button className="bg-red-500 text-white p-2 rounded cursor-pointer hover:bg-red-600" onClick={logout}>Logout</button>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default Home;
