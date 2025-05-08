@@ -2,50 +2,55 @@ import Header from "../shared/components/Header";
 import Footer from "../shared/components/Footer";
 import { useEffect, useState } from "react";
 
-interface WindowWithRNWebView extends Window {
-  ReactNativeWebView?: {
-    postMessage: (message: string) => void;
-  };
-}
 declare global {
-  interface window extends WindowWithRNWebView {}
+  interface Window {
+    ReactNativeWebView?: {
+      postMessage: (message: string) => void;
+    };
+  }
 }
 
 function Home() {
   const [data,setData] = useState('prueba');
 
   useEffect(() => {
-    // Primero agregamos el event listener
-    const handleMessage = (messageData: MessageEvent) => {
-      const data = JSON.parse(messageData.data);
-      console.log(data);
-      alert(data);
-      if (data.type === "message") {
-        alert(data.content);
-        setData(data.content);
+    const handleMessage = (event: MessageEvent) => {
+      try {
+        // Verificar el origen del mensaje por seguridad
+        // if (event.origin !== "https://tudominio.com") return;
+        
+        const data = JSON.parse(event.data);
+        console.log("Mensaje recibido:", data);
+        
+        if (data.type === "GET_TOKEN_RESPONSE") {
+          alert(`Token recibido: ${data.token}`);
+          setData(data.token);
+        }
+      } catch (error) {
+        console.error("Error procesando mensaje:", error);
       }
     };
   
     window.addEventListener('message', handleMessage);
   
-    // Luego enviamos el mensaje GET_TOKEN
+    // Solicitar el token
     const message = {
       type: "GET_TOKEN",
       content: "",
     };
-    const win = window as WindowWithRNWebView;
-
-    if (win.ReactNativeWebView) {
-      win.ReactNativeWebView.postMessage(JSON.stringify(message));
+  
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
-      alert('No se encontró ReactNativeWebView');
+      console.log("No está en WebView de React Native");
+      // Simular para desarrollo web
+      // setData("simulated-token");
     }
   
-    // Limpiar en el desmontaje
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [])
+  }, []);
   
   const sendMessage = () => {
 
@@ -55,7 +60,7 @@ function Home() {
     };
 
     // Verificar si estamos en un WebView de React Native
-    const win = window as WindowWithRNWebView;
+    const win = window as Window;
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
@@ -70,7 +75,7 @@ function Home() {
     };
 
     // Verificar si estamos en un WebView de React Native
-    const win = window as WindowWithRNWebView;
+    const win = window as Window;
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
