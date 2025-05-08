@@ -1,6 +1,6 @@
 import Header from "../shared/components/Header";
 import Footer from "../shared/components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface WindowWithRNWebView extends Window {
   ReactNativeWebView?: {
@@ -12,6 +12,7 @@ declare global {
 }
 
 function Home() {
+  const [data,setData] = useState('');
 
   useEffect(()=>{
     const message = {
@@ -30,7 +31,7 @@ function Home() {
   const getData = ( event: any)=>{
     console.log(event);
     console.log(event.data);
-    alert(JSON.stringify(event));
+    setData(JSON.stringify(event));
   }
   
   const sendMessage = () => {
@@ -69,6 +70,7 @@ function Home() {
       <Header />
       <div className="flex-1 text-center gap-1.5 justify-center items-center p-4">
         <h1>Home</h1>
+        <p>{data}</p>
         <button className="bg-blue-500 mr-2 text-white p-2 rounded cursor-pointer hover:bg-blue-600" onClick={sendMessage}>Send Message</button>
         <button className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600" onClick={logout}>Logout</button>
       </div>
