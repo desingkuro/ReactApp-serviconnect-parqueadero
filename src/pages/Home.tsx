@@ -20,7 +20,7 @@ function Home() {
         // if (event.origin !== "https://tudominio.com") return;
         
         const data = JSON.parse(event.data);
-        console.log("Mensaje recibido:", data);
+        alert(data);
         
         if (data.type === "GET_TOKEN_RESPONSE") {
           alert(`Token recibido: ${data.token}`);
@@ -43,8 +43,6 @@ function Home() {
       window.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
       console.log("No está en WebView de React Native");
-      // Simular para desarrollo web
-      // setData("simulated-token");
     }
   
     return () => {
