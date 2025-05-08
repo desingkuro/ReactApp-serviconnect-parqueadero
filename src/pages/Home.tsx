@@ -22,14 +22,12 @@ function Home() {
     const win = window as WindowWithRNWebView;
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
-      window.addEventListener('message',(event:any)=>{
-        if(event.data.type === "TOKEN"){
-          setData(event.data.content);  
-        }else{
-          alert(event.data.content);
-        }
-        setData(event.data.content);
-      })
+      window.addEventListener('message', handleWebViewMessage);
+
+      // Limpiar el listener cuando el componente se desmonte
+      return () => {
+        window.removeEventListener('message', handleWebViewMessage);
+      };
     } else {
       alert('No se encontró ReactNativeWebView');
     }
@@ -63,6 +61,22 @@ function Home() {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
       alert('No se encontró ReactNativeWebView');
+    }
+  };
+
+  const handleWebViewMessage = (event:any) => {
+    try {
+      const message = JSON.parse(event.data);
+      
+      if (message.type === 'message') {
+        // Aquí manejas el token
+        const token = message.content;
+        console.log('Token recibido:', token);
+        setData(token);
+        // Aquí puedes hacer lo que necesites con el token
+      }
+    } catch (error) {
+      console.error('Error al procesar mensaje:', error);
     }
   };
 
