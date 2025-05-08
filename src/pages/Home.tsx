@@ -30,6 +30,7 @@ function Home() {
 
   const getData = ( event: any)=>{
     setData(JSON.stringify(event));
+    alert(JSON.stringify(event));
   }
   
   const sendMessage = () => {
