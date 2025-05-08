@@ -22,9 +22,9 @@ function Home() {
     const win = window as WindowWithRNWebView;
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
-      alert('enviado');
+      //alert('enviado');
       window.addEventListener('message', messageData=>{
-        alert(messageData);
+        alert(messageData.data);
         setData(messageData.data);  
       });
 
