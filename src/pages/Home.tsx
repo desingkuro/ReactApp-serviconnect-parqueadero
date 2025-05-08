@@ -65,6 +65,7 @@ function Home() {
   };
 
   const handleWebViewMessage = (event:any) => {
+    alert(event.data);
     try {
       const message = JSON.parse(event.data);
       
@@ -85,7 +86,7 @@ function Home() {
       <Header />
       <div className="flex-1 text-center gap-1.5 justify-center items-center p-4">
         <h1>Home</h1>
-        <p>data: {data}</p>
+        <p>data modificado: {data}</p>
         <button className="bg-blue-500 mr-2 text-white p-2 rounded cursor-pointer hover:bg-blue-600" onClick={sendMessage}>Send Message</button>
         <button className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600" onClick={logout}>Logout</button>
       </div>
