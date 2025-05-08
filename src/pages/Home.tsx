@@ -18,6 +18,8 @@ function Home() {
     // Primero agregamos el event listener
     const handleMessage = (messageData: MessageEvent) => {
       const data = JSON.parse(messageData.data);
+      console.log(data);
+      alert(data);
       if (data.type === "message") {
         alert(data.content);
         setData(data.content);
@@ -32,7 +34,7 @@ function Home() {
       content: "",
     };
     const win = window as WindowWithRNWebView;
-    
+
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
