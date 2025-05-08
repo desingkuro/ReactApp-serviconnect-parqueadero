@@ -14,24 +14,36 @@ declare global {
 function Home() {
   const [data,setData] = useState('prueba');
 
-  useEffect(()=>{
+  useEffect(() => {
+    // Primero agregamos el event listener
+    const handleMessage = (messageData: MessageEvent) => {
+      const data = JSON.parse(messageData.data);
+      if (data.type === "message") {
+        alert(data.content);
+        setData(data.content);
+      }
+    };
+  
+    window.addEventListener('message', handleMessage);
+  
+    // Luego enviamos el mensaje GET_TOKEN
     const message = {
       type: "GET_TOKEN",
       content: "",
     };
     const win = window as WindowWithRNWebView;
+    
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
-      //alert('enviado');
-      window.addEventListener('message', messageData=>{
-        alert(messageData.data);
-        setData(messageData.data);  
-      });
-
     } else {
       alert('No se encontró ReactNativeWebView');
     }
-  },[])
+  
+    // Limpiar en el desmontaje
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [])
   
   const sendMessage = () => {
 
