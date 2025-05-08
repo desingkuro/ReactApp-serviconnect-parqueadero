@@ -22,6 +22,7 @@ function Home() {
     const win = window as WindowWithRNWebView;
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
+      alert('enviado');
       window.addEventListener('message', handleWebViewMessage);
 
       // Limpiar el listener cuando el componente se desmonte
