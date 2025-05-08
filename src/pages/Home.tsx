@@ -12,7 +12,7 @@ declare global {
 }
 
 function Home() {
-  const [data,setData] = useState('');
+  const [data,setData] = useState('prueba');
 
   useEffect(()=>{
     const message = {
@@ -72,7 +72,7 @@ function Home() {
         <button className="bg-blue-500 mr-2 text-white p-2 rounded cursor-pointer hover:bg-blue-600" onClick={sendMessage}>Send Message</button>
         <button className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600" onClick={logout}>Logout</button>
       </div>
-      <Footer />
+      <Footer />  
     </div>
   );
 }
