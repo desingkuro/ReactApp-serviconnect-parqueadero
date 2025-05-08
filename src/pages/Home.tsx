@@ -12,7 +12,7 @@ declare global {
 
 function Home() {
   const sendMessage = () => {
-    
+
     const message = {
       type: "REACT_WEBVIEW_MESSAGE",
       content: "BIENVENIDO",
@@ -48,7 +48,7 @@ function Home() {
       <div className="flex-1 text-center gap-1.5 justify-center items-center p-4">
         <h1>Home</h1>
         <button className="bg-blue-500 text-white p-2 rounded cursor-pointer hover:bg-blue-600" onClick={sendMessage}>Send Message</button>
-        <button className="bg-red-500 text-white p-2 rounded cursor-pointer hover:bg-red-600" onClick={logout}>Logout</button>
+        <button className="bg-green-500 text-white p-2 rounded cursor-pointer hover:bg-green-600" onClick={logout}>Logout</button>
       </div>
       <Footer />
     </div>
