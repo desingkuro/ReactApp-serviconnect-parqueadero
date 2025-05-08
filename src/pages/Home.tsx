@@ -22,16 +22,18 @@ function Home() {
     const win = window as WindowWithRNWebView;
     if (win.ReactNativeWebView) {
       win.ReactNativeWebView.postMessage(JSON.stringify(message));
-      window.addEventListener('message',getData)
+      window.addEventListener('message',(event:any)=>{
+        if(event.data.type === "TOKEN"){
+          setData(event.data.content);  
+        }else{
+          alert(event.data.content);
+        }
+        setData(event.data.content);
+      })
     } else {
       alert('No se encontró ReactNativeWebView');
     }
   },[])
-
-  const getData = ( event: any)=>{
-    setData(JSON.stringify(event));
-    alert(JSON.stringify(event));
-  }
   
   const sendMessage = () => {
 
