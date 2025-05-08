@@ -12,7 +12,6 @@ declare global {
 }
 
 function Home() {
-  const [data,setData] = useState('');
 
   useEffect(()=>{
     const message = {
